@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLong</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #livelongSlider {
+            position: relative;
+            height: 637px;
+            overflow: hidden;
+        }
+        
+        #wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 10;
+            font-family: 'Fira Sans', sans-serif;
+        }
+        #progress {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background-color: rgb(0,48,97);
+        }
+        #progress .circle {
+            position: relative;
+            height: 120px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #progress #bigCircle {
+            position: relative;
+            left: 50%;
+            top: 50%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            border-radius: 100%;
+            background-color: rgb(0,48,97);
+        }
+        #progress #bigCircle img {
+            margin-top: 4%;
+        }
+        #progress .prcnt {
+            position: relative;
+            font-size: 25px;
+            top: -74px;
+            color: white;
+        }
+        #progress .circle span {
+            font-weight: 800;
+        }
+        #progress .loading {
+            color:white;
+            font-size:20px;
+        }
+        
+        #sliderWrapper {
+            position: absolute;
+            height: 638px;
+            width: 100%;
+            overflow: hidden
+        }
+        #sliderWrapper .navigation {
+            height: 70px;
+            background-color: white;
+            color: gray;
+            font-size: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        #sliderWrapper .slideCover {
+            position: absolute;
+            overflow: hidden;
+            width: 100%;
+            height: 538px;
+        }
+        #sliderWrapper .slide {
+            position: absolute;
+            height: 538px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        #sliderCircle {
+            position: absolute;
+            top: 100px;
+            height: 538px;
+            width: 100%;
+        }
+        #sliderCircle div {
+            position: relative;
+            height: 538px;
+            width: 535px;
+            border-radius: 100%;
+            background-color: rgba(0,48,97,0.8);
+        }
+        #sliderCircle img {
+            margin-top: 10px;
+            margin-left: 10px;
+            opacity: 0.8;
+        }
+    </style>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
+    
+    <script>
+        $(document).ready(function(){
+            //Set the width of the bigCircle
+            var height = $('#bigCircle').css('height');
+            $('#bigCircle').css('width',height);
+            //Rotate the image
+            TweenMax.to($('.circle img'), 5, {rotation:'+=360', ease: Linear.easeNone, repeat: -1});
+            
+            //CSS: set the width of the slides
+            var width = $('#livelongSlider').css('width');
+            $('#sliderWrapper .slide').css('width',width);
+            
+            $(window).resize(function(){
+                var width = $('#livelongSlider').css('width');
+                $('#sliderWrapper .slide').css('width',width);
+            });
+        });
+        
+        var pageStatus = null;
+        
+        document.onreadystatechange = function() {
+            if(document.readyState == 'complete') {
+                pageStatus = 'complete';
+            }
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            var value = Number($('.prcnt span').html());
+            if (pageStatus == 'complete') {
+                //Take whatever value in the span to 100%
+                var num = {val:value};
+                function updateHandler() {
+                    $('.prcnt span').text(num.val);
+                }
+                //Tween to animate to 100%
+                TweenLite.to(num, 1, {val:'100', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone, onComplete:killProgress});
+                //FadeOut Loading
+                TweenLite.to($('#progress .loading'), 1, {opacity:0});
+            } else {
+                if (value >= 0 && value < 30) {
+                    var num = {val:value};
+                    function updateHandler() {
+                        $('.prcnt span').text(num.val);
+                    }
+                    var progressTl = new TimelineLite();
+                    progressTl
+                        .to(num, 1, {val:'12', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone})
+                        .to(num, 3, {val:'23', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone, delay: 2})
+                        .to(num, 1, {val:'32', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone, delay: 3})
+                        .to(num, 2, {val:'38', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone, delay: 2})
+                        .to(num, 1, {val:'45', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone, delay: 3})
+                        .to(num, 3, {val:'68', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone, delay: 4})
+                        .to(num, 4, {val:'83', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone, delay: 6})
+                        .to(num, 2, {val:'95', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone, delay: 3})
+                        .to(num, 1, {val:'99', roundProps:'val', onUpdate:updateHandler, ease:Linear.easeNone, delay: 6})
+                }
+            }
+        }
+        
+        function killProgress() {
+            $('#wrapper .prcnt').css('visibility','hidden');
+            var height = $('#wrapper').css('height');
+            var killProgressTl = new TimelineLite();
+            killProgressTl
+                .to($('#wrapper #bigCircle'), 2, {height:height, width:height, left: 0, onComplete:slider})
+                .to($('#progress'), 2, {left:'150%'})
+                .set($('#wrapper'), {display:'none'});
+        }
+        
+        function slider() {
+            var circleTime = 1,
+                circleIncrement = 1,
+                curveIncrement = 1,
+                slideTime = 3,
+                slideDelay = 5;
+            
+            var livelongSlider = new TimelineMax({repeat:-1});
+            livelongSlider
+                .set($('#sliderCircle div'), {zIndex:99, left:'-560', rotation:0})
+                .set($('#sliderWrapper .slideCover'), {zIndex:1, left:0, borderRadius:0})
+                .set($('#sliderWrapper .slideCover .slide'), {left:0})
+                .set($('#sliderWrapper .slideCover:eq(0)'), {zIndex:3})
+                .set($('#sliderWrapper .slideCover:eq(1)'), {zIndex:2})
+                
+                .to($('#sliderCircle div'), circleIncrement, {left:'0', rotation:'+=150', ease: Linear.easeNone}, '+='+slideDelay)
+                .to($('#sliderWrapper .slideCover:eq(0)'), curveIncrement, {borderRadius:'548px 0 0 548px', ease: Power3.easeIn}, '-='+circleIncrement)
+                .to($('#sliderCircle div'), slideTime, {left:'100%', rotation:'+=360', ease: Linear.easeNone})
+                .to($('#sliderWrapper .slideCover:eq(0)'), slideTime, {left:'100%', ease: Linear.easeNone}, '-='+slideTime)
+                .to($('#sliderWrapper .slideCover:eq(0) .slide'), slideTime, {left:'-100%', ease: Linear.easeNone}, '-='+slideTime)
+                .to($('#sliderCircle div'), circleTime, {left:'100%', rotation:'+=180', ease: Linear.easeNone})
+                
+                .set($('#sliderCircle div'), {left:'-560', rotation:0})
+                .set($('#sliderWrapper .slideCover'), {zIndex:1, left:0, borderRadius:0})
+                .set($('#sliderWrapper .slideCover .slide'), {left:0})
+                .set($('#sliderWrapper .slideCover:eq(1)'), {zIndex:3})
+                .set($('#sliderWrapper .slideCover:eq(2)'), {zIndex:2})
+                
+                .to($('#sliderCircle div'), circleIncrement, {left:'0', rotation:'+=150', ease: Linear.easeNone}, '+='+slideDelay)
+                .to($('#sliderWrapper .slideCover:eq(1)'), circleIncrement, {borderRadius:'548px 0 0 548px', ease: Power3.easeIn}, '-='+circleIncrement)
+                .to($('#sliderCircle div'), slideTime, {left:'100%', rotation:'+=360', ease: Linear.easeNone})
+                .to($('#sliderWrapper .slideCover:eq(1)'), slideTime, {left:'100%', ease: Linear.easeNone}, '-='+slideTime)
+                .to($('#sliderWrapper .slideCover:eq(1) .slide'), slideTime, {left:'-100%', ease: Linear.easeNone}, '-='+slideTime)
+                .to($('#sliderCircle div'), circleTime, {left:'100%', rotation:'+=180', ease: Linear.easeNone})
+                
+                .set($('#sliderCircle div'), {left:'-560', rotation:0})
+                .set($('#sliderWrapper .slideCover'), {zIndex:1, left:0, borderRadius:0})
+                .set($('#sliderWrapper .slideCover .slide'), {left:0})
+                .set($('#sliderWrapper .slideCover:eq(2)'), {zIndex:3})
+                .set($('#sliderWrapper .slideCover:eq(0)'), {zIndex:2})
+                
+                .to($('#sliderCircle div'), circleIncrement, {left:'0', rotation:'+=150', ease: Linear.easeNone}, '+='+slideDelay)
+                .to($('#sliderWrapper .slideCover:eq(2)'), circleIncrement, {borderRadius:'548px 0 0 548px', ease: Power3.easeIn}, '-='+circleIncrement)
+                .to($('#sliderCircle div'), slideTime, {left:'100%', rotation:'+=360', ease: Linear.easeNone})
+                .to($('#sliderWrapper .slideCover:eq(2)'), slideTime, {left:'100%', ease: Linear.easeNone}, '-='+slideTime)
+                .to($('#sliderWrapper .slideCover:eq(2) .slide'), slideTime, {left:'-100%', ease: Linear.easeNone}, '-='+slideTime)
+                .to($('#sliderCircle div'), circleTime, {left:'100%', rotation:'+=180', ease: Linear.easeNone})
+        }
+    </script>
+</head>
+
+<body>
+    <div id="livelongSlider"> <!-- livelongSlider -->
+        
+        <div id="wrapper"> <!-- Wrapping the image and background -->
+            <div id="progress">
+                <div class="circle">
+                    <div id="bigCircle">
+                        <img src="Pics/Lifelong-Med-Logo.png" height="92%">
+                    </div>
+                    <div class="prcnt">
+                        <span>0</span>%
+                    </div>
+                    <div class="loading">Loading . .</div>
+                </div>
+            </div>
+        </div> <!-- //Wrapping the image and background -->
+        
+        <div id="sliderWrapper">
+            
+            <div class="navigation">
+                Navigation Goes Here
+            </div>
+            
+            <div class="slideCover">
+                <div class="slide" style="background-image:url(Pics/slider-1.jpg)"></div>
+            </div>
+            
+            <div class="slideCover">
+                <div class="slide" style="background-image:url(Pics/slider-2.jpg)"></div>
+            </div>
+            
+            <div class="slideCover">
+                <div class="slide" style="background-image:url(Pics/slider-3.jpg)"></div>
+            </div>
+            
+        </div>
+        
+        <div id="sliderCircle">
+            <div>
+                <img src="Pics/Lifelong-Med-Logo.png" height="518px">
+            </div>
+        </div>
+        
+    </div> <!-- //livelongSlider -->
+</body>
+</html>

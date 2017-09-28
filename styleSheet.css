@@ -1,0 +1,255 @@
+/*Centering The Unkown *******************************/
+.block {
+  text-align: center;
+}
+.block:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+.centered {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+/*MAIN CSS *******************************************/
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: snow;
+}
+
+hr {
+    border-color: black;
+}
+
+#Navigation .container-fluid {
+    padding: 0 90px;
+}
+
+#Navigation .navbar-header .navbar-brand,
+#Navigation #Nav-items ul {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+#Navigation .navbar-header button {
+    margin-top: 20px;
+}
+
+#Navigation .navbar-header .navbar-text {
+    border: 5px solid #f39c12;
+    border-radius: 10px;
+    font-family: 'Merriweather', serif;
+    font-size: 28px;
+    color: snow;
+    text-align: center;
+    width: 250px;
+    height: 50px;
+}
+
+#Navigation #Nav-items ul li a {
+    color: snow;
+}
+
+#Navigation #Nav-items ul li a:hover {
+    border: 2px solid snow;
+    border-radius: 5px;
+    padding: 13px;
+}
+
+#Header {
+    background-image: url(Pics/20170729_122151.jpg);
+    background-size: cover;
+    font-family: 'Old Standard TT', serif;
+    font-size: 70px;
+    font-weight: 800;
+    height: 700px;
+    text-shadow: 3px 2px #34495e;
+}
+
+#Header .container-fluid:nth-child(1) {
+    height: 100%;
+    background-color: rgba(34,34,34,0.6);
+}
+
+#Header .container-fluid:nth-child(1) .col-lg-7:nth-child(1) div:nth-child(2),
+#Header .container-fluid:nth-child(1) .col-lg-7:nth-child(1) div:nth-child(3) {
+    font-size: 40px;
+}
+
+#Header .col-lg-7:nth-child(1) {
+    margin-top: 200px;
+    z-index: 10;
+}
+
+#Header .col-lg-7:nth-child(1) div:nth-child(3) {
+    padding: 10px 100px 0;
+    text-align: center;
+    border-radius: 5px;
+    height: 77px;
+}
+
+#Header .col-lg-7:nth-child(1) div:nth-child(3) div {
+    display: inline-block;
+}
+
+#Header #particles-js {
+    position: absolute;
+    top: 150px;
+    width: 100%;
+    height: 500px;
+}
+
+#About .col-md-6 {
+    margin: 20px 0;
+}
+
+#About .col-md-6:nth-child(1) {
+    background-image: url(Pics/20507424_1299812786807733_5577741936843473751_o.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 680px;
+    padding: 0;
+    overflow: hidden;
+}
+
+#About #Contacts {
+    height: 100%;
+    font-size: 30px;
+    padding-top: 300px;
+    padding-left: 50px;
+    background-color: rgba(0,0,0,0.8);
+    text-align: left;
+    position: relative;
+    left: -100%;
+}
+
+#About .about_me {
+    color: #7f8c8d;
+    text-align: justify;
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+#About .about_me div {
+    color: black;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    
+}
+
+#About .skills .box {
+    height: 30px;
+    margin: 10px 5px;
+    background-color: rgba(189, 195, 199,0.8);
+}
+
+#About .skills .box div {
+    height: 30px;
+    font-size: 20px;
+    background-color: black;
+}
+
+#Projects .headder,
+#Components .headder {
+    color: black;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+#Projects .intro,
+#Components .intro {
+    color: black;
+    font-size: 20px;
+    text-align: center;
+}
+
+#Projects .row .col-md-4 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#Projects .row .col-md-4 .img {
+    height: 500px;
+    overflow: hidden;
+    border: 3px solid black;
+    border-radius: 5px;
+    background-size: cover;
+    background-position: center;
+}
+
+#Projects .col-md-4 .content {
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    padding: 20px 25px;
+    position: relative;
+    left: -100%;
+}
+
+#Projects .col-md-4 .content div {
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#Projects .clients .col-md-4 .img {
+    height: 250px;
+}
+
+#Projects .col-md-4 .content p {
+    font-size: 15px;
+    text-align: justify;
+}
+
+#Projects .col-md-4 .content span {
+    margin: 20px;
+    padding: 10px;
+    float: right;
+    border: 2px solid snow;
+}
+
+#Projects .col-md-4 .content span a {
+    color: snow;
+}
+
+#Projects .col-md-4 .testmonial {
+    color: black;
+    text-align: center;
+}
+
+#Components .row {
+    color: black;
+    font-size: 20px;
+}
+
+#Components .img {
+    height: 400px;
+    border: 2px solid black;
+    border-radius: 3px;
+    background-size: cover;
+    background-position: center;
+}
+
+
+/*MEDIA MAX-WIDTH 992 (When the navBar collapses) **/
+@media (max-width: 992px) {
+    #Navigation .container-fluid {
+        padding: 0 50px;
+    }
+}
+
+/*MEDIA When columns collapses ********************************/
+@media (max-width: 768px) {
+    #Projects .col-md-4 {
+        width: 50%;
+        margin: 0 auto;
+    }
+}
