@@ -120,6 +120,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
     
     <script>
+        $(function(){
+            var windowHeight = $(window).height();
+            $('#livelongSlider').css('height',windowHeight);
+            $('#sliderWrapper').css('height',windowHeight);
+            var navHeight = windowHeight * 0.15;
+            $('#sliderWrapper .navigation').css('height',(navHeight-30));
+            var slideHeight = windowHeight * 0.85;
+            $('#sliderWrapper .slideCover').css('height',slideHeight);
+            $('#sliderWrapper .slide').css('height',slideHeight);
+            $('#sliderCircle').css({'height':slideHeight, 'top':navHeight});
+            $('#sliderCircle div').css({'height':slideHeight, 'width':(slideHeight-3)});
+            $('#sliderCircle img').css('height', (slideHeight-20));
+            
+        });
+    </script>
+    
+    <script>
         $(document).ready(function(){
             //Set the width of the bigCircle
             var height = $('#bigCircle').css('height');
@@ -197,44 +214,37 @@
                 slideDelay = 5;
             
             var livelongSlider = new TimelineMax({repeat:-1});
+            var numSlides = ($('.slideCover').length),
+                windowWidth = $(window).width(),
+                circleLeft = -1* windowWidth /2;
+            
+            for(var i=0; i<(numSlides-1); i++) {
+                livelongSlider
+                    .set($('#sliderCircle div'), {zIndex:99, left:circleLeft, rotation:0})
+                    .set($('#sliderWrapper .slideCover'), {zIndex:1, left:0, borderRadius:0})
+                    .set($('#sliderWrapper .slideCover .slide'), {left:0})
+                    .set($('#sliderWrapper .slideCover:eq(' +i+ ')'), {zIndex:3})
+                    .set($('#sliderWrapper .slideCover:eq(' +(i+1)+ ')'), {zIndex:2})
+
+                    .to($('#sliderCircle div'), circleIncrement, {left:'0', rotation:'+=150', ease: Linear.easeNone}, '+='+slideDelay)
+                    .to($('#sliderWrapper .slideCover:eq(' +i+ ')'), curveIncrement, {borderRadius:'548px 0 0 548px', ease: Power3.easeIn}, '-='+circleIncrement)
+                    .to($('#sliderCircle div'), slideTime, {left:'100%', rotation:'+=360', ease: Linear.easeNone})
+                    .to($('#sliderWrapper .slideCover:eq(' +i+ ')'), slideTime, {left:'100%', ease: Linear.easeNone}, '-='+slideTime)
+                    .to($('#sliderWrapper .slideCover:eq(' +i+ ') .slide'), slideTime, {left:'-100%', ease: Linear.easeNone}, '-='+slideTime)
+                    .to($('#sliderCircle div'), circleTime, {left:'100%', rotation:'+=180', ease: Linear.easeNone})
+            }
             livelongSlider
-                .set($('#sliderCircle div'), {zIndex:99, left:'-560', rotation:0})
+                .set($('#sliderCircle div'), {left:circleLeft, rotation:0})
                 .set($('#sliderWrapper .slideCover'), {zIndex:1, left:0, borderRadius:0})
                 .set($('#sliderWrapper .slideCover .slide'), {left:0})
-                .set($('#sliderWrapper .slideCover:eq(0)'), {zIndex:3})
-                .set($('#sliderWrapper .slideCover:eq(1)'), {zIndex:2})
-                
-                .to($('#sliderCircle div'), circleIncrement, {left:'0', rotation:'+=150', ease: Linear.easeNone}, '+='+slideDelay)
-                .to($('#sliderWrapper .slideCover:eq(0)'), curveIncrement, {borderRadius:'548px 0 0 548px', ease: Power3.easeIn}, '-='+circleIncrement)
-                .to($('#sliderCircle div'), slideTime, {left:'100%', rotation:'+=360', ease: Linear.easeNone})
-                .to($('#sliderWrapper .slideCover:eq(0)'), slideTime, {left:'100%', ease: Linear.easeNone}, '-='+slideTime)
-                .to($('#sliderWrapper .slideCover:eq(0) .slide'), slideTime, {left:'-100%', ease: Linear.easeNone}, '-='+slideTime)
-                .to($('#sliderCircle div'), circleTime, {left:'100%', rotation:'+=180', ease: Linear.easeNone})
-                
-                .set($('#sliderCircle div'), {left:'-560', rotation:0})
-                .set($('#sliderWrapper .slideCover'), {zIndex:1, left:0, borderRadius:0})
-                .set($('#sliderWrapper .slideCover .slide'), {left:0})
-                .set($('#sliderWrapper .slideCover:eq(1)'), {zIndex:3})
-                .set($('#sliderWrapper .slideCover:eq(2)'), {zIndex:2})
-                
-                .to($('#sliderCircle div'), circleIncrement, {left:'0', rotation:'+=150', ease: Linear.easeNone}, '+='+slideDelay)
-                .to($('#sliderWrapper .slideCover:eq(1)'), circleIncrement, {borderRadius:'548px 0 0 548px', ease: Power3.easeIn}, '-='+circleIncrement)
-                .to($('#sliderCircle div'), slideTime, {left:'100%', rotation:'+=360', ease: Linear.easeNone})
-                .to($('#sliderWrapper .slideCover:eq(1)'), slideTime, {left:'100%', ease: Linear.easeNone}, '-='+slideTime)
-                .to($('#sliderWrapper .slideCover:eq(1) .slide'), slideTime, {left:'-100%', ease: Linear.easeNone}, '-='+slideTime)
-                .to($('#sliderCircle div'), circleTime, {left:'100%', rotation:'+=180', ease: Linear.easeNone})
-                
-                .set($('#sliderCircle div'), {left:'-560', rotation:0})
-                .set($('#sliderWrapper .slideCover'), {zIndex:1, left:0, borderRadius:0})
-                .set($('#sliderWrapper .slideCover .slide'), {left:0})
-                .set($('#sliderWrapper .slideCover:eq(2)'), {zIndex:3})
+                .set($('#sliderWrapper .slideCover:eq(' +(numSlides-1)+ ')'), {zIndex:3})
                 .set($('#sliderWrapper .slideCover:eq(0)'), {zIndex:2})
                 
                 .to($('#sliderCircle div'), circleIncrement, {left:'0', rotation:'+=150', ease: Linear.easeNone}, '+='+slideDelay)
-                .to($('#sliderWrapper .slideCover:eq(2)'), circleIncrement, {borderRadius:'548px 0 0 548px', ease: Power3.easeIn}, '-='+circleIncrement)
+                .to($('#sliderWrapper .slideCover:eq(' +(numSlides-1)+ ')'), circleIncrement, {borderRadius:'548px 0 0 548px', ease: Power3.easeIn}, '-='+circleIncrement)
                 .to($('#sliderCircle div'), slideTime, {left:'100%', rotation:'+=360', ease: Linear.easeNone})
-                .to($('#sliderWrapper .slideCover:eq(2)'), slideTime, {left:'100%', ease: Linear.easeNone}, '-='+slideTime)
-                .to($('#sliderWrapper .slideCover:eq(2) .slide'), slideTime, {left:'-100%', ease: Linear.easeNone}, '-='+slideTime)
+                .to($('#sliderWrapper .slideCover:eq(' +(numSlides-1)+ ')'), slideTime, {left:'100%', ease: Linear.easeNone}, '-='+slideTime)
+                .to($('#sliderWrapper .slideCover:eq(' +(numSlides-1)+ ') .slide'), slideTime, {left:'-100%', ease: Linear.easeNone}, '-='+slideTime)
                 .to($('#sliderCircle div'), circleTime, {left:'100%', rotation:'+=180', ease: Linear.easeNone})
         }
     </script>
@@ -264,17 +274,29 @@
             </div>
             
             <div class="slideCover">
-                <div class="slide" style="background-image:url(Pics/slider-1.jpg)"></div>
+                <div class="slide" style="background-image:url(Pics/slide1.jpg)"></div>
             </div>
-            
             <div class="slideCover">
-                <div class="slide" style="background-image:url(Pics/slider-2.jpg)"></div>
+                <div class="slide" style="background-image:url(Pics/slide2.jpg)"></div>
             </div>
-            
             <div class="slideCover">
-                <div class="slide" style="background-image:url(Pics/slider-3.jpg)"></div>
+                <div class="slide" style="background-image:url(Pics/slide3.jpg)"></div>
             </div>
-            
+            <div class="slideCover">
+                <div class="slide" style="background-image:url(Pics/slide4.jpg)"></div>
+            </div>
+            <div class="slideCover">
+                <div class="slide" style="background-image:url(Pics/slide5.jpg)"></div>
+            </div>
+            <div class="slideCover">
+                <div class="slide" style="background-image:url(Pics/slide6.jpg)"></div>
+            </div>
+            <div class="slideCover">
+                <div class="slide" style="background-image:url(Pics/slide7.jpg)"></div>
+            </div>
+            <div class="slideCover">
+                <div class="slide" style="background-image:url(Pics/slide8.jpg)"></div>
+            </div>
         </div>
         
         <div id="sliderCircle">
